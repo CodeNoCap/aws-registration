@@ -13,10 +13,9 @@ const auth = new GoogleAuth({
     scopes: ['https://www.googleapis.com/auth/spreadsheets']
 });
 
-let refId = 1; // Start reference ID from 1
 
 app.post('/api/submit', async (req, res) => {
-    const { name, idNumber, courseSection } = req.body;
+    const { refID, name, idNumber, courseSection } = req.body;
 
     if (!name || !idNumber || !courseSection) {
         return res.status(400).json({ message: 'All fields are required.' });
@@ -34,7 +33,7 @@ app.post('/api/submit', async (req, res) => {
             valueInputOption: 'USER_ENTERED',
             insertDataOption: 'INSERT_ROWS',
             resource: {
-                values: [[refId++, name, idNumber, courseSection]],
+                values: [[refID, name, idNumber, courseSection]],
             },
         };
 

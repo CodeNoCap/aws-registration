@@ -1,14 +1,14 @@
-/* Import Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Gotham:wght@700&family=Tahoma:wght@400&display=swap');
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Tahoma', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #e8f5e9; /* Light green background */
+    background-color: #e8f5e9;
 }
 
 .container {
@@ -18,44 +18,60 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
+    text-align: center;
 }
 
 h1 {
-    color: #1b5e20; /* Dark green */
-    text-align: center;
-    margin-bottom: 1.5rem;
+    font-family: 'Gotham', sans-serif;
+    color: #1b5e20;
+    margin-bottom: 0.5rem;
     font-size: 2.5rem;
-    font-weight: 500;
+    font-weight: 700;
+}
+
+.subtext {
+    font-size: 1.25rem;
+    color: #1b5e20;
+    margin-bottom: 1.5rem;
 }
 
 form {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
 }
 
 label {
     color: #333;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.25rem;
     font-weight: 500;
 }
 
 input {
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
     padding: 0.75rem 1rem;
-    border: 1px solid #a5d6a7; /* Light green border */
+    border: 1px solid #a5d6a7;
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.3s ease;
+    width: 93%;
 }
 
 input:focus {
-    border-color: #66bb6a; /* Highlight color */
+    border-color: #66bb6a;
     outline: none;
     box-shadow: 0 0 0 2px rgba(102, 187, 106, 0.2);
 }
 
+.error {
+    color: red;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    margin-left: 0.5rem;
+}
+
 button {
-    background-color: #1b5e20; /* Dark green */
+    background-color: #1b5e20;
     color: white;
     padding: 0.75rem;
     border: none;
@@ -64,18 +80,123 @@ button {
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 1rem;
     font-weight: 500;
+    margin-top: 1rem;
 }
 
 button:hover {
-    background-color: #2e7d32; /* Slightly lighter green */
+    background-color: #2e7d32;
     transform: translateY(-2px);
 }
 
 button:active {
-    background-color: #004d00; /* Darker green */
+    background-color: #004d00;
     transform: translateY(1px);
 }
 
 input::placeholder {
     color: #888;
+}
+
+.poster {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Ensure it appears above other elements */
+}
+
+.poster img {
+    max-width: none;
+    max-height: none;
+    width: 5%;
+    height: 5%;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: contain;
+    border-radius: 0; /* Remove border radius for full-screen effect */
+}
+
+
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 10;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.popup-content h2 {
+    font-family: 'Gotham', sans-serif;
+    color: #1b5e20;
+    margin-bottom: 1rem;
+}
+
+.popup-content p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.popup-content button {
+    background-color: #1b5e20;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 1.5rem;
+}
+
+.popup-content button:hover {
+    background-color: #2e7d32;
+}
+
+
+@media (max-width: 600px) {
+    .container {
+        padding: 1rem; /* Adjusted padding */
+        max-width: 70%; /* Ensure it fits within the screen */
+    }
+
+    h1 {
+        font-size: 1.5rem; /* Smaller font size */
+    }
+
+    .subtext {
+        font-size: 0.7rem; /* Smaller font size */
+    }
+
+    input {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.7rem; /* Smaller font size */
+    }
+
+    button {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .poster {
+        display: none; /* Ensure poster does not appear on mobile */
+    }
 }
