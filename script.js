@@ -2,33 +2,50 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('submissionForm');
     const nameInput = document.getElementById('name');
     const idNumberInput = document.getElementById('idNumber');
+    const courseSectionInput = document.getElementById('courseSection');
+    const nameError = document.getElementById('nameError');
+    const idError = document.getElementById('idError');
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
     
         const name = nameInput.value.trim();
         const idNumber = idNumberInput.value.trim();
-    
-        if (name && idNumber) {
-            console.log('Sending data:', { name, idNumber }); // Log the data being sent
-            submitData(name, idNumber);
+        const courseSection = courseSectionInput.value.trim();
+
+        let valid = true;
+
+        // Name validation
+        if (!/^[a-zA-Z\s]+$/.test(name)) {
+            nameError.textContent = "Please input correct name";
+            valid = false;
         } else {
-            alert('Please fill out both fields.');
+            nameError.textContent = "";
         }
-    
-        nameInput.value = '';
-        idNumberInput.value = '';
+
+        // ID validation (5 to 7 digits)
+        if (!/^\d{5,7}$/.test(idNumber)) {
+            idError.textContent = "Please input correct school ID";
+            valid = false;
+        } else {
+            idError.textContent = "";
+        }
+
+        if (valid) {
+            console.log('Sending data:', { name, idNumber, courseSection });
+            submitData(name, idNumber, courseSection);
+        }
     });
 });
 
-async function submitData(name, idNumber) {
+async function submitData(name, idNumber, courseSection) {
     try {
-        const response = await fetch('https://aws-registration.onrender.com/api/submit', { // Updated URL
+        const response = await fetch('https://aws-registration.onrender.com/api/submit', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Ensure JSON content-type is set
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, idNumber }) // Send name and idNumber as JSON
+            body: JSON.stringify({ name, idNumber, courseSection })
         });
 
         if (!response.ok) {

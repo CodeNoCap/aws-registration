@@ -11,10 +11,15 @@
         <h1>AWS Registration</h1>
         <form id="submissionForm">
             <label for="name">Name:</label>
-            <input type="text" id="name" required>
+            <input type="text" id="name" placeholder="ex.: Juan D. Cruz" required>
+            <small class="error" id="nameError"></small>
 
             <label for="idNumber">ID Number:</label>
-            <input type="number" id="idNumber" required>
+            <input type="number" id="idNumber" placeholder="2101234" required>
+            <small class="error" id="idError"></small>
+
+            <label for="courseSection">Course-Year-Section:</label>
+            <input type="text" id="courseSection" placeholder="BSCS 1-D" required>
 
             <button type="submit">Submit</button>
         </form>
