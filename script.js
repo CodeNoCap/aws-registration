@@ -19,21 +19,16 @@ document.addEventListener('DOMContentLoaded', function() {
         nameInput.value = '';
         idNumberInput.value = '';
     });
-
-    
-
-
-    
 });
 
 async function submitData(name, idNumber) {
     try {
-        const response = await fetch('http://localhost:3000/api/submit', {
+        const response = await fetch('https://aws-registration.onrender.com/api/submit', { // Updated URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Ensure JSON content-type is set
             },
-            body: JSON.stringify({ name, idNumber }) // Ensure JSON payload
+            body: JSON.stringify({ name, idNumber }) // Send name and idNumber as JSON
         });
 
         if (!response.ok) {
