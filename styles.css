@@ -1,11 +1,14 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 body {
-    font-family: 'Tahoma', sans-serif;
+    font-family: 'Roboto', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #e8f5e9;
+    background-color: #e8f5e9; /* Light green background */
 }
 
 .container {
@@ -15,61 +18,44 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
-    text-align: center;
 }
 
 h1 {
-    font-family: 'Gotham', sans-serif;
-    color: #1b5e20;
-    margin-bottom: 0.5rem;
-    font-size: 2.5rem;
-    font-weight: 700;
-}
-
-.subtext {
-    font-size: 1.25rem;
-    color: #1b5e20;
+    color: #1b5e20; /* Dark green */
+    text-align: center;
     margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    font-weight: 500;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    align-items: stretch; /* Ensures inputs stretch to container width */
 }
 
 label {
     color: #333;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.75rem;
     font-weight: 500;
 }
 
 input {
+    margin-bottom: 1rem;
     padding: 0.75rem 1rem;
-    border: 1px solid #a5d6a7;
+    border: 1px solid #a5d6a7; /* Light green border */
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.3s ease;
-    width: 100%; /* Ensure the inputs take up full width of the form */
-    box-sizing: border-box; /* Prevents padding from expanding beyond the container */
-    margin-bottom: 1rem; /* Creates space between input fields */
 }
 
 input:focus {
-    border-color: #66bb6a;
+    border-color: #66bb6a; /* Highlight color */
     outline: none;
     box-shadow: 0 0 0 2px rgba(102, 187, 106, 0.2);
 }
 
-.error {
-    color: red;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
-    margin-left: 0.25rem;
-}
-
 button {
-    background-color: #1b5e20;
+    background-color: #1b5e20; /* Dark green */
     color: white;
     padding: 0.75rem;
     border: none;
@@ -78,121 +64,18 @@ button {
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 1rem;
     font-weight: 500;
-    margin-top: 1rem;
 }
 
 button:hover {
-    background-color: #2e7d32;
+    background-color: #2e7d32; /* Slightly lighter green */
     transform: translateY(-2px);
 }
 
 button:active {
-    background-color: #004d00;
+    background-color: #004d00; /* Darker green */
     transform: translateY(1px);
 }
 
 input::placeholder {
     color: #888;
-}
-
-/* Ensures the poster takes up the whole screen */
-.poster {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
-.poster img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 12px;
-}
-
-/* Pop-up centering and design */
-.popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 10;
-}
-
-.popup-content {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.popup-content h2 {
-    font-family: 'Gotham', sans-serif;
-    color: #1b5e20;
-    margin-bottom: 1rem;
-}
-
-.popup-content p {
-    font-size: 1rem;
-    color: #555;
-}
-
-.popup-content button {
-    background-color: #1b5e20;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    margin-top: 1.5rem;
-}
-
-.popup-content button:hover {
-    background-color: #2e7d32;
-}
-
-#confetti-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9;
-}
-
-/* Mobile-friendly adjustments */
-@media (max-width: 600px) {
-    .container {
-        padding: 1.5rem;
-    }
-
-    h1 {
-        font-size: 2rem;
-    }
-
-    .subtext {
-        font-size: 1rem;
-    }
-
-    input {
-        padding: 0.5rem 0.75rem;
-    }
-
-    button {
-        padding: 0.5rem;
-        font-size: 0.875rem;
-    }
 }
