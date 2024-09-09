@@ -47,6 +47,32 @@ app.post('/api/submit', async (req, res) => {
     }
 });
 
+app.get('/api/get-last-refid', async (req, res) => {
+    try {
+        const client = await auth.getClient();
+        const sheets = google.sheets({ version: 'v4', auth: client });
+        const spreadsheetId = '1NF2lqfCIL1jnbdDyi_4TUzQ8k23XZkkAOaq7rJ3tp9I';
+
+        // Fetch the last refID
+        const lastRefIdResponse = await sheets.spreadsheets.values.get({
+            spreadsheetId,
+            range: 'Registration!A:A' // Get all values in column A (Reference ID)
+        });
+
+        const lastRefIdValues = lastRefIdResponse.data.values;
+
+        // Get the last value in column A (the last refID)
+        const lastRefId = lastRefIdValues && lastRefIdValues.length > 0 ? parseInt(lastRefIdValues[lastRefIdValues.length - 1][0]) : 0;
+
+        return res.status(200).json({ lastRefID: lastRefId });
+
+    } catch (err) {
+        console.error('Error in Google Sheets API:', err.message);
+        return res.status(500).json({ message: 'Failed to retrieve last refID.', error: err.message });
+    }
+});
+
+
 app.listen(10000, () => {
     console.log('Server running on port 10000');
 });
