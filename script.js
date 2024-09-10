@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const offlineQueueList = document.getElementById('offlineQueueList');
     let idleTimeout;
 
+
+
+    
     // Reset the inactivity timer
     function resetIdleTimer() {
         clearTimeout(idleTimeout);
@@ -36,8 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
     closeQueuePopup.addEventListener('click', function () {
         offlineQueuePopup.style.display = 'none';
     });
-
-
 
     // Inactivity event listeners
     window.addEventListener('mousemove', resetIdleTimer);
@@ -68,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (valid) {
-            welcomePopup.style.display = 'flex';
+            
 
             // Submit the data
             checkConnectionAndSubmit(name, idNumber, courseSection);
@@ -76,22 +77,43 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     async function checkConnectionAndSubmit(name, idNumber, courseSection) {
+        let submissionTimedOut = false;
+        const submissionTimeout = setTimeout(() => {
+            submissionTimedOut = true;
+            toggleLoadingAnimation(false);
+            const proceedOffline = confirm("Submission is taking too long. Would you like to proceed offline?");
+            if (proceedOffline) {
+                saveToLocalStorage({ name, idNumber, courseSection });
+            }
+        }, 10000); // 10-second timeout
+
         try {
+            toggleLoadingAnimation(true);  // Start the loading animation
+
             // Check if online
             const online = await isServerOnline();
 
-            if (online) {
-                // Server is online, submit the data
-                submitData(name, idNumber, courseSection);
-            } else {
-                // Server is offline, save the data in localStorage
+            if (online && !submissionTimedOut) {
+                clearTimeout(submissionTimeout);  // Clear timeout if submission finishes before timeout
+                welcomePopup.style.display = 'flex';
+                await submitData(name, idNumber, courseSection);
+            } else if (!submissionTimedOut) {
                 saveToLocalStorage({ name, idNumber, courseSection });
+                toggleLoadingAnimation(false); 
                 alert('You are offline. Your submission has been saved and will be submitted when you are online.');
             }
         } catch (error) {
             console.error('Error checking connection:', error);
+        } finally {
+            toggleLoadingAnimation(false);  // Stop the loading animation
         }
     }
+
+    function toggleLoadingAnimation(show) {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        loadingOverlay.style.display = show ? 'flex' : 'none'; // Use flex to center the content
+    }
+    
 
     async function isServerOnline() {
         try {
@@ -103,17 +125,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function saveToLocalStorage(data) {
-    let queueRaw = localStorage.getItem('offlineQueue');
-    let offlineQueue = queueRaw ? JSON.parse(queueRaw) : []; // Ensure queue is an array
+        toggleLoadingAnimation(true); 
+        let queueRaw = localStorage.getItem('offlineQueue');
+        let offlineQueue = queueRaw ? JSON.parse(queueRaw) : []; // Ensure queue is an array
 
-    offlineQueue.push(data);
-    localStorage.setItem('offlineQueue', JSON.stringify(offlineQueue));
+        offlineQueue.push(data);
+        localStorage.setItem('offlineQueue', JSON.stringify(offlineQueue));
 
-    updateOfflineQueueList();
-}
+        updateOfflineQueueList();
 
+        // Clear fields
+        nameInput.value = '';
+        idNumberInput.value = '';
+        courseSectionInput.value = '';
+        toggleLoadingAnimation(false); 
+    }
 
     async function submitData(name, idNumber, courseSection) {
+        toggleLoadingAnimation(true); 
         try {
             const lastRefIdResponse = await fetch('https://aws-registration.onrender.com/api/get-last-refid');
             const lastRefIdData = await lastRefIdResponse.json();
@@ -135,6 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
             nameInput.value = '';
             idNumberInput.value = '';
             courseSectionInput.value = '';
+            toggleLoadingAnimation(false); 
 
         } catch (error) {
             console.error('Error:', error);
@@ -165,60 +195,32 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function checkAndSubmitQueue() {
+        console.log(`%c[RUNNING] Checking queue`, "color: yellow")
         if (navigator.onLine) {
+            toggleLoadingAnimation(true); 
             let queueRaw = localStorage.getItem('offlineQueue');
             let queue = queueRaw ? JSON.parse(queueRaw) : []; // Ensure queue is an empty array if null
-    
+
             if (queue.length > 0) {
                 for (let i = 0; i < queue.length; i++) {
-                    const item = queue[i];
-                    try {
-                        const lastRefIdResponse = await fetch('https://aws-registration.onrender.com/api/get-last-refid');
-                        const lastRefIdData = await lastRefIdResponse.json();
-                        const refID = lastRefIdData.lastRefID + 1;
-    
-                        const response = await fetch('https://aws-registration.onrender.com/api/submit', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ refID, name: item.name, idNumber: item.idNumber, courseSection: item.courseSection })
-                        });
-    
-                        if (!response.ok) {
-                            throw new Error('Failed to submit queued item');
-                        }
-    
-                        // Log the successful online submission
-                        console.log(`Online submission: ${item.name}, ${item.idNumber}, ${item.courseSection}`);
-    
-                        // Remove the successfully submitted item from the queue
-                        queue.splice(i, 1);
-                        i--; // Adjust index since we removed an item
-                        localStorage.setItem('offlineQueue', JSON.stringify(queue));
-    
-                        // Remove the item from the popup list
-                        const popupItem = document.getElementById(`queue-item-${item.idNumber}`);
-                        if (popupItem) {
-                            popupItem.remove();
-                        }
-    
-                    } catch (error) {
-                        console.error('Error submitting queued item:', error);
-                        return; // Stop processing the queue if any error occurs
-                    }
+                    const { name, idNumber, courseSection } = queue[i];
+                    await submitData(name, idNumber, courseSection);
                 }
+                // Clear the offline queue after successful submission
+                localStorage.removeItem('offlineQueue');
+                toggleLoadingAnimation(false); 
+                console.log("Offline queue now empty!");
+                updateOfflineQueueList();
             }
+        } else {
+            console.log(`$c[Connection error] Not online`, "color:red");
         }
     }
-    
-    
-    
-    resetIdleTimer();
-    checkAndSubmitQueue();
+
+    window.addEventListener('online', checkAndSubmitQueue);
 });
 
 function isMobile() {
+    // Check if the screen width is less than 480px
     return window.innerWidth <= 480;
 }
-

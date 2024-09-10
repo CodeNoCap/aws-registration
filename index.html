@@ -25,6 +25,8 @@
 
             <button type="submit">Submit</button>
         </form>
+
+        
     </div>
 
     <div id="posterOverlay" class="poster">
@@ -51,5 +53,14 @@
         </div>
     </div>
     <script src="script.js"></script>
+    
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-container">
+            <dotlottie-player src="https://lottie.host/01d9b42a-1b41-4761-bb8f-15b55f6753cf/aHvCKNPOci.json"
+                background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay>
+            </dotlottie-player>
+        </div>
+    </div>
 </body>
 </html>

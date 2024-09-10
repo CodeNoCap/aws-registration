@@ -121,6 +121,27 @@ input::placeholder {
     border-radius: 0; /* Remove border radius for full-screen effect */
 }
 
+/* Full-screen overlay */
+.loading-overlay {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 9999; /* Make sure it's on top of everything */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    scale: 200%;
+}
+
+/* Center loading container */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 
 .popup {
