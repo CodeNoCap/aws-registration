@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const offlineQueueBtn = document.getElementById('offlineQueueBtn');
     const offlineQueuePopup = document.getElementById('offlineQueuePopup');
     const closeQueuePopup = document.getElementById('closeQueuePopup');
+    const submitQueuePopup = document.getElementById('submitQueuePopup');
     const offlineQueueList = document.getElementById('offlineQueueList');
     let idleTimeout;
 
@@ -217,10 +218,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    window.addEventListener('online', checkAndSubmitQueue);
+    submitQueuePopup.addEventListener('click', checkAndSubmitQueue);
 });
 
 function isMobile() {
     // Check if the screen width is less than 480px
     return window.innerWidth <= 480;
 }
+
+const url = `https://aws-registration.vercel.app`; // Replace with your Render URL
+const interval = 30000; // Interval in milliseconds (30 seconds)
+
+function reloadWebsite() {
+ axios.get(url)
+   .then(response => {
+     console.log(`Reloaded at ${new Date().toISOString()}: Status Code ${response.status}`);
+   })
+   .catch(error => {
+     console.error(`Error reloading at ${new Date().toISOString()}:`, error.message);
+   });
+}
+
+
+setInterval(reloadWebsite, interval);
