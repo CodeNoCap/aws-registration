@@ -121,6 +121,10 @@ input::placeholder {
     border-radius: 0; /* Remove border radius for full-screen effect */
 }
 
+
+
+
+/* Full-screen overlay */
 /* Full-screen overlay */
 .loading-overlay {
     display: none; /* Hidden by default */
@@ -133,7 +137,6 @@ input::placeholder {
     z-index: 9999; /* Make sure it's on top of everything */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
-    scale: 200%;
 }
 
 /* Center loading container */
@@ -141,6 +144,19 @@ input::placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column; /* Stack animation and text vertically */
+}
+
+/* Loading text styling */
+.loading-text {
+    font-family: Tahoma, sans-serif; /* Use Tahoma Regular */
+    font-weight: 400; /* Regular weight */
+    font-size: 16px; /* Adjust size to fit your design */
+    color: #ffffff; /* White text */
+    text-align: center;
+    max-width: 400px; /* Limit text width */
+    line-height: 1.5; /* Readability */
+    margin-top: -70px;
 }
 
 

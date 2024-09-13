@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (proceedOffline) {
                 saveToLocalStorage({ name, idNumber, courseSection });
             }
-        }, 10000); // 10-second timeout
+        }, 53000); 
 
         try {
             toggleLoadingAnimation(true);  // Start the loading animation
