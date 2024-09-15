@@ -72,12 +72,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (valid) {
             
 
-            // Submit the data
-            checkConnectionAndSubmit(name, idNumber, courseSection);
+            const submissionTime = new Date().toISOString(); // Record the current time in ISO format
+            checkConnectionAndSubmit(name, idNumber, courseSection, submissionTime);
         }
     });
 
-    async function checkConnectionAndSubmit(name, idNumber, courseSection) {
+    async function checkConnectionAndSubmit(name, idNumber, courseSection, submissionTime) {
         let submissionTimedOut = false;
         const submissionTimeout = setTimeout(() => {
             submissionTimedOut = true;
@@ -97,9 +97,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (online && !submissionTimedOut) {
                 clearTimeout(submissionTimeout);  // Clear timeout if submission finishes before timeout
                 welcomePopup.style.display = 'flex';
-                await submitData(name, idNumber, courseSection);
+                await submitData(name, idNumber, courseSection, submissionTime);
             } else if (!submissionTimedOut) {
-                saveToLocalStorage({ name, idNumber, courseSection });
+                saveToLocalStorage({ name, idNumber, courseSection, submissionTime });
                 toggleLoadingAnimation(false); 
                 alert('You are offline. Your submission has been saved and will be submitted when you are online.');
             }
@@ -142,19 +142,20 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleLoadingAnimation(false); 
     }
 
-    async function submitData(name, idNumber, courseSection) {
+    async function submitData(name, idNumber, courseSection, submissionTime) {
         toggleLoadingAnimation(true); 
         try {
             const lastRefIdResponse = await fetch('https://aws-registration.onrender.com/api/get-last-refid');
             const lastRefIdData = await lastRefIdResponse.json();
             const refID = lastRefIdData.lastRefID + 1;
+            console.log(`%c[TIME]: ${submissionTime}`, "color: yellow");
 
             const response = await fetch('https://aws-registration.onrender.com/api/submit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ refID, name, idNumber, courseSection })
+                body: JSON.stringify({ refID, name, idNumber, courseSection, submissionTime })
             });
 
             if (!response.ok) {

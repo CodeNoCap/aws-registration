@@ -16,9 +16,10 @@ const auth = new GoogleAuth({
 
 
 app.post('/api/submit', async (req, res) => {
-    const { refID, name, idNumber, courseSection } = req.body;
-
-    if (!name || !idNumber || !courseSection) {
+    const { refID, name, idNumber, courseSection, submissionTime } = req.body;
+    console.log("Submission time received:", submissionTime);
+    
+    if (!name || !idNumber || !courseSection || !submissionTime) {
         return res.status(400).json({ message: 'All fields are required.' });
     }
 
@@ -26,15 +27,14 @@ app.post('/api/submit', async (req, res) => {
         const client = await auth.getClient();
         const sheets = google.sheets({ version: 'v4', auth: client });
         const spreadsheetId = '1NF2lqfCIL1jnbdDyi_4TUzQ8k23XZkkAOaq7rJ3tp9I';
-        const range = 'Registration!A:D'; // Columns A: Reference ID, B: Name, C: ID, D: Course-Year-Section
-
+        const range = 'Registration!A:E'; // Columns A: Reference ID, B: Name, C: ID, D: Course-Year-Section
         const request = {
             spreadsheetId,
             range,
             valueInputOption: 'USER_ENTERED',
             insertDataOption: 'INSERT_ROWS',
             resource: {
-                values: [[refID, name, idNumber, courseSection]],
+                values: [[refID, name, idNumber, courseSection, submissionTime]],
             },
         };
 
