@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function resetIdleTimer() {
         clearTimeout(idleTimeout);
         posterOverlay.style.display = 'none';
-        idleTimeout = setTimeout(showPoster, 30000); // 30 seconds of inactivity
+        idleTimeout = setTimeout(showPoster, 30000); 
     }
 
     // Show the poster after inactivity
@@ -72,7 +72,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (valid) {
             
 
-            const submissionTime = new Date().toISOString(); // Record the current time in ISO format
+            const submissionTime = new Date().toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true,
+            });
+            
             checkConnectionAndSubmit(name, idNumber, courseSection, submissionTime);
         }
     });
