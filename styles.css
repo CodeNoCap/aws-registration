@@ -209,6 +209,31 @@ input::placeholder {
 }
 
 
+/* Style the Google Forms button and text */
+.google-forms-container {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    text-align: center;
+    color: #333;
+    margin: 30px 30px;
+}
+
+.google-forms-container p {
+    font-size: 12px;
+    margin-bottom: 5px;
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
+.google-forms-button {
+    width: 40px; /* Adjust the size as needed */
+    height: auto;
+    cursor: pointer;
+}
+
+
+
 @media (max-width: 600px) {
     .container {
         padding: 1rem; /* Adjusted padding */
