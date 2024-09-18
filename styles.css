@@ -261,4 +261,34 @@ input::placeholder {
     .poster {
         display: none; /* Ensure poster does not appear on mobile */
     }
+
+    .google-forms-container {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        text-align: center;
+        color: #333;
+        margin: 2px 8px;
+    }
+    
+    .google-forms-container p {
+        font-size: 8px;
+        margin-bottom: 5px;
+    }
+    
+    .google-forms-button {
+        width: 30px; /* Adjust the size as needed */
+        height: auto;
+        cursor: pointer;
+    }
+    
+    /* Center loading container */
+    .loading-container {
+        scale: 70%;
+    }
+
+    .popup-content {
+        scale: 75%;
+    }
+    
 }
